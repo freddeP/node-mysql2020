@@ -95,15 +95,10 @@ app.get('/delete/:id',[
 
 app.get('/edit/:id',function(req,res){
 
-   // return res.send(typeof parseInt(req.params.id));
-   const id = req.params.id;
     q = "SELECT * FROM posts WHERE id = ?";
-    con.query(q,[id],(err,data)=>{
-        //return res.send(data);
-        err? console.log(err.message) : "";
-        if(!err){
-           
+    con.query(q,[req.params.id],(err,data)=>{
 
+        if(!err){
             let form = `
             <form action="/update" method="post">
                 <input type="text" name="title" value = "${data[0].title}">
@@ -113,10 +108,17 @@ app.get('/edit/:id',function(req,res){
             </form>`;
 
             res.send(render(form));
-        } 
+        }
+
+
+        
     });
 
  });
+
+
+
+
 
 
 app.listen(3666,()=>console.log("3666"));
